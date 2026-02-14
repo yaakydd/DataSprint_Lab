@@ -23,6 +23,7 @@ For the cleaning, we look at four(4) keys problems we need to fix to ensure our 
 3. Outliers : Someone's age is listed as 999
 4. Duplicates : Same person's record appears seven times 
 
+Problem 1 : Wrong Data Types
 python codes for:
 Finding Wrong Data Types
 columns_datatypes = df.dtypes   # Prints out the datatypes of the columns
@@ -32,7 +33,41 @@ df['date'] = pd.to_datetime(df['date'])
 df['price'] = df['price'].astype(float)
 df['age'] = df['age'].astype(int)
 
+Problem 2: MISSING DATA DECISION TREE
 
+**THE RULE:**
+
+< 5% missing in column? -> Drop rows with missing values
+5-40% missing? -> Impute (fill with mean/median/mode)
+> 40% missing? -> Drop the entire column
+The Code:
+
+python
+# Check missing percentage
+missing_pct = (df.isnull().sum() / len(df)) * 100
+print(missing_pct[missing_pct > 0])
+
+# Decision 1: Drop columns with > 40% missing
+threshold = 40
+cols_to_drop = missing_pct[missing_pct > threshold].index
+df = df.drop(columns=cols_to_drop)
+
+
+# Decision 2: For numeric columns (5-40% missing)
+from sklearn.impute import SimpleImputer
+
+numeric_cols = df.select_dtypes(include=[np.number]).columns
+imputer = SimpleImputer(strategy='median')  # Use median (robust to outliers)
+df[numeric_cols] = imputer.fit_transform(df[numeric_cols])
+
+# Decision 3: For categorical columns (5-40% missing)
+categorical_cols = df.select_dtypes(include=['object']).columns
+imputer_cat = SimpleImputer(strategy='most_frequent')  # Use mode
+df[categorical_cols] = imputer_cat.fit_transform(df[categorical_cols])
+
+# Decision 4: Drop remaining rows with < 5% missing
+df = df.dropna()
+MEMORY TRICK: "40% drop column, middle range impute, tiny amount drop row"
 
 ## 📊 WHY EXPLORE (EDA) THE DATA?
 You need to understand patterns and relationships BEFORE building a model.
