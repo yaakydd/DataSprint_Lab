@@ -1,0 +1,38 @@
+We continue our journey of exploring data and finding out its uses. In this lecture, we delve into cleaning the dataset as well as exploring the dataset.
+But first, lets recap what we did in the previous lecture.
+DATA SCIENCE AND ML WORKFLOW:
+COLLECT DATA -> LOAD DATA -> VIEW DATA -> CLEAN -> EXPLORE -> PREPARE -> MODEL -> EVALUATE -> TUNE -> DEPLOY
+
+We conquered the first three items on the workflow which is collection of data, loading the data and viewing the data. Data can be collected or downloaded from websites and used for our analysis and exploration. Different types of files(json,csv,tsv ...) can be loaded but before loading, you need to import the needed libraries for this operation. After loading, you view the how the data looks like to get a fair idea of the data you are working with. Let's move on to our next topics.  
+
+4. CLEANING THE DATASET
+ 🧹 WHY CLEAN THE DATA?
+
+Garbage in = garbage out. Clean data = smart models because models believe whatever you tell them.
+
+Real-World Analogy:
+You're making a smoothie. Would you throw in:
+- Rotten bananas? (outliers/errors)
+- The banana peel? (irrelevant features)
+- An empty space where a strawberry should be? (missing values)
+
+No! You'd clean the fruit first. Same with data.
+For the cleaning, we look at four(4) keys problems we need to fix to ensure our model makes the right predictions.
+1. Wrong data types : Column data type should be int instead of object
+2. Missing values : Age column has blanks which can cause the model to crash
+3. Outliers : Someone's age is listed as 999
+4. Duplicates : Same person's record appears seven times 
+
+python codes for:
+Finding Wrong Data Types
+
+
+
+## 📊 WHY EXPLORE (EDA) THE DATA?
+You need to understand patterns and relationships BEFORE building a model.
+
+Real-World Analogy:
+You're a detective solving a crime. Would you immediately arrest someone? No! You'd:
+- Look for clues (patterns in data)
+- Find connections (correlations)
+- Rule out suspects (irrelevant features)

@@ -1,0 +1,68 @@
+There are millions of data being gathered each second, minute, hour and da which is raw and unprocessed . Now have you ever wondered what this data could be used for, what is the importance of gathering the data and what do we seek to achieve with the data gathered. To know more, we will dive into the world of fields which makes the most use of the data gathered and know what its used for and how the operators operate to make meaning out of this raw unprocessed data. These fields are data science, data analysis, machine learning, data enigneering, deep learning engineer and so on. We will get to know the role these professionals play, the tools they use and what conclusions they make at the end of the day. 
+
+Who is a Data Scientist?
+Data Scientist are professionals who work in the data science field and utilize advanced analytics, machine learning and statistical methods to solve complex problems and predict trends.
+
+Who is a Machine Learning engineer?
+A machine learning engineer is a person who works in the machine learning field. They develop and deploy algorithms that enable machines to learn and make predictions from data
+
+This lecture introduces you to the basic workflow in Data Science and Machine Learning.
+
+DATA SCIENCE AND ML WORKFLOW:
+
+COLLECT DATA -> LOAD DATA -> VIEW DATA -> CLEAN -> EXPLORE -> PREPARE -> MODEL -> EVALUATE -> TUNE -> DEPLOY
+
+We will consider the first three (3) items on the workflow
+
+
+1.COLLECTION OF DATA
+Collect data from people, download from websites such as Kaggle, HuggingFace which is relevant to the topic of interest.
+NB: There can be a txt file which gives a short description about the data.
+Eg. Filename -> MedicalExamination.csv
+Description: This dataset contains the records of 9571 patients. Thier names, ages, marital status .. were recorded.
+
+2. LOAD DATA:
+ 🔍 WHY LOAD THE DATA FIRST?
+You need to put your data into the computer memory before you start working.
+
+Real-World Analogy: Loading data is like filling a toolbox.Imagine you're a building a bookshelf, you need to fill your toolbox with screws, hammer etc before you start building your bookshelf.
+
+Before loading data, you must import the required libraries(tools)
+ Import pandas as pd   -> This is for data manipulation
+ Import numpy as np -> This is for scientific computing
+ Import matplotlib.pyplot as plt -> For visualising data ( Making bar charts, histogram, scatterplot etc)
+ Import seaborn as sns -> Also for visualising data
+ 
+ Now load the data into a dataframe(A dataframe is a collections of rows and columns and this helps pandas to manipulate the data). 
+ There are different kinds of files which can be loaded. Eg. Excel, sql, csv, tsv, json ...
+ 
+ df = pd.read_csv("Filename.csv or File_Path", sep=",")   -> Load and storing the csv file in a dataframe
+ df = pd.read_excel("Filename.xls or Filename.xlsx or File_Path")  -> Loading and storing the excel file in a dataframe
+ df = pd.read_json("Filename.json or File_Path")  -> Loading and storing the json file
+ df = pd.read_tsv("Filename.tsv or File_Path", sep="/t")  -> Loading and storing the tsv file 
+ 
+ 3. LOOKING AT THE DATA
+ 🔍WHY LOOK AT THE DATA?
+You need to know what you're working with before you can fix it.
+
+Real-World Analogy: Imagine you're a mechanic. A car rolls into your shop. Would you immediately start replacing parts? No! You'd first:
+Pop the hood and LOOK
+Check what's broken
+Understand what you're dealing with before making any decision.
+
+Below are codes for looking at the data:
+print(df.shape)          # How many rows and columns are in the dataset?
+print(df.head())         # What does the data look like(This displays the first 5 rows in the dataset)?
+print(df.info())         # Data types and non-null counts of each column
+print(df.describe())     # Statistics for numeric columns (Mean, Mode, Median ..)
+print(df.isnull().sum()) # Missing values per column
+print(df.tail())   #This outputs the last five rows in the dataset
+
+
+✍️TakeAway: 1. List the full names of the files which can be loaded and write a short note about them.
+Eg.csv -> Comma Separated Value
+2.Download and perform all the above operations on the [best sellin books total.csv] file.
+
+!IMPORTANT : Open an Issue or Pull Request to share your answers.
+ 
+
