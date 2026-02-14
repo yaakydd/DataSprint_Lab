@@ -25,6 +25,12 @@ For the cleaning, we look at four(4) keys problems we need to fix to ensure our 
 
 python codes for:
 Finding Wrong Data Types
+columns_datatypes = df.dtypes   # Prints out the datatypes of the columns
+
+# Fix data types (eg. common issue: dates as strings)
+df['date'] = pd.to_datetime(df['date'])
+df['price'] = df['price'].astype(float)
+df['age'] = df['age'].astype(int)
 
 
 
