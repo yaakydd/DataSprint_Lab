@@ -1,16 +1,16 @@
-We continue our journey of exploring data and finding out its uses. In this lecture, we delve into cleaning the dataset as well as exploring the dataset.
+**We continue our journey of exploring data and finding out its uses. In this lecture, we delve into cleaning the dataset as well as exploring the dataset.**
 But first, lets recap what we did in the previous lecture.
-DATA SCIENCE AND ML WORKFLOW:
-COLLECT DATA -> LOAD DATA -> VIEW DATA -> CLEAN -> EXPLORE -> PREPARE -> MODEL -> EVALUATE -> TUNE -> DEPLOY
+# DATA SCIENCE AND ML WORKFLOW:
+## COLLECT DATA -> LOAD DATA -> VIEW DATA -> CLEAN -> EXPLORE -> PREPARE -> MODEL -> EVALUATE -> TUNE -> DEPLOY
 
 We conquered the first three items on the workflow which is collection of data, loading the data and viewing the data. Data can be collected or downloaded from websites and used for our analysis and exploration. Different types of files(json,csv,tsv ...) can be loaded but before loading, you need to import the needed libraries for this operation. After loading, you view the how the data looks like to get a fair idea of the data you are working with. Let's move on to our next topics.  
 
-4. CLEANING THE DATASET
+4. **CLEANING THE DATASET**
  🧹 WHY CLEAN THE DATA?
 
 Garbage in = garbage out. Clean data = smart models because models believe whatever you tell them.
 
-Real-World Analogy:
+**Real-World Analogy:**
 You're making a smoothie. Would you throw in:
 - Rotten bananas? (outliers/errors)
 - The banana peel? (irrelevant features)
@@ -23,17 +23,17 @@ For the cleaning, we look at four(4) keys problems we need to fix to ensure our 
 3. Outliers : Someone's age is listed as 999
 4. Duplicates : Same person's record appears seven times 
 
-Problem 1 : Wrong Data Types
+**Problem 1 : Wrong Data Types**
 python codes for:
 Finding Wrong Data Types
 columns_datatypes = df.dtypes   # Prints out the datatypes of the columns
 
-# Fix data types (eg. common issue: dates as strings)
+## Fix data types (eg. common issue: dates as strings)
 df['date'] = pd.to_datetime(df['date'])
 df['price'] = df['price'].astype(float)
 df['age'] = df['age'].astype(int)
 
-Problem 2: MISSING DATA DECISION TREE
+**Problem 2: MISSING DATA DECISION TREE**
 
 **THE RULE:**
 
@@ -43,31 +43,72 @@ Problem 2: MISSING DATA DECISION TREE
 The Code:
 
 python
-# Check missing percentage
+## Check missing percentage
 missing_pct = (df.isnull().sum() / len(df)) * 100
 print(missing_pct[missing_pct > 0])
 
-# Decision 1: Drop columns with > 40% missing
+## Decision 1: Drop columns with > 40% missing
 threshold = 40
 cols_to_drop = missing_pct[missing_pct > threshold].index
 df = df.drop(columns=cols_to_drop)
 
 
-# Decision 2: For numeric columns (5-40% missing)
+## Decision 2: For numeric columns (5-40% missing)
 from sklearn.impute import SimpleImputer
 
 numeric_cols = df.select_dtypes(include=[np.number]).columns
 imputer = SimpleImputer(strategy='median')  # Use median (robust to outliers)
 df[numeric_cols] = imputer.fit_transform(df[numeric_cols])
 
-# Decision 3: For categorical columns (5-40% missing)
+## Decision 3: For categorical columns (5-40% missing)
 categorical_cols = df.select_dtypes(include=['object']).columns
 imputer_cat = SimpleImputer(strategy='most_frequent')  # Use mode
 df[categorical_cols] = imputer_cat.fit_transform(df[categorical_cols])
 
-# Decision 4: Drop remaining rows with < 5% missing
+## Decision 4: Drop remaining rows with < 5% missing
 df = df.dropna()
-MEMORY TRICK: "40% drop column, middle range impute, tiny amount drop row"
+
+**Problem 3: OUTLIER DETECTION & HANDLING**
+
+**THE RULE: Use IQR (Interquartile Range) method**
+
+python
+def detect_outliers(df, column):
+    Q1 = df[column].quantile(0.25)
+    Q3 = df[column].quantile(0.75)
+    IQR = Q3 - Q1
+    lower_bound = Q1 - 1.5 * IQR
+    upper_bound = Q3 + 1.5 * IQR
+    
+    outliers = df[(df[column] < lower_bound) | (df[column] > upper_bound)]
+    return outliers, lower_bound, upper_bound
+
+## Check for outliers in all numeric columns
+for col in numeric_cols:
+    outliers, lower, upper = detect_outliers(df, col)
+    print(f"{col}: {len(outliers)} outliers (range: {lower:.2f} to {upper:.2f})")
+
+**DECISION TREE FOR OUTLIERS:**
+
+Are they errors? (age = 200) → Remove them
+Are they real but extreme? (income = $10M) → Keep or cap them
+Unsure? → Try model with and without, compare performance
+Capping outliers (Winsorization):
+
+python
+def cap_outliers(df, column):
+    Q1 = df[column].quantile(0.25)
+    Q3 = df[column].quantile(0.75)
+    IQR = Q3 - Q1
+    lower_bound = Q1 - 1.5 * IQR
+    upper_bound = Q3 + 1.5 * IQR
+    
+    df[column] = df[column].clip(lower=lower_bound, upper=upper_bound)
+    return df
+
+# Apply to a column
+df = cap_outliers(df, 'income')
+
 
 ## 📊 WHY EXPLORE (EDA) THE DATA?
 You need to understand patterns and relationships BEFORE building a model.
