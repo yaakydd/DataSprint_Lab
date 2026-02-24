@@ -1,4 +1,3 @@
 # DataSprintLab
-It caters for the needs of all machine learning and 
-data science enthusiasts by providing files needed for learning to grow their skills 
-in their respective fields
+Comprises of all the relevant topics that a Data Science or Machine Learning enthusiast needs to learn, understand and explore more in thr fields of Data Science and AI. 
+Carefully crafted.
